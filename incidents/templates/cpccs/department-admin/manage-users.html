@@ -1,0 +1,46 @@
+{% extends 'cpccs/department-admin/department-admin.html' %}
+{% block department %} {{ user.department.department_name }} {% endblock %}
+{% block content %}
+{% load static %}
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Users</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <th>Id</th>
+                          <th>User Name</th>
+                          <th>User Mail</th>
+                          <th>Level</th>
+                        </thead>
+                        <tbody>
+                          {% for get_user in users %}
+                          <tr>
+                            <td>{{ get_user.id }}</td>
+                            <td>{{ get_user.user_name }}</td>
+                            <td>{{ get_user.user_mail }}</td>
+                            <td>{{ get_user.level.name }}</td>
+                            <td>
+                              <a
+                                href="/view_user/{{ link_tag }}/{{ user.user_name }}/{{ get_user.id }}/"
+                                ><button class="btn btn-link">
+                                  Edit User
+                                </button></a
+                              >
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>                      
+                    </div> <!-- table responsive div ends here -->
+                  </div>
+                  <!-- card body ends here -->
+                </div>
+                <!-- card div ends here -->
+              </div>
+              <!-- column div -->
+            </div>
+            <br /><!-- table row ends here -->
+{% endblock %}

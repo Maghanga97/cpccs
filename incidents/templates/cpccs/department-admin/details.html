@@ -1,0 +1,104 @@
+{% extends 'cpccs/department-admin/department-admin.html' %}
+{% block department %} {{ details.department.department_name }} {% endblock %}
+{% block details %}
+{% load static %}
+        <div class="card">
+          <div class="card-body">
+            <strong>Reference No:</strong> {{ details.ref_no }}<br>
+            <strong>Incident Type:</strong> {{ details.incident_type }}<br>
+            <strong>Department:</strong> {{ details.department.department_name }} <br>
+            <strong>Subcounty:</strong> {{ details.subcounty }}<br>
+            <strong>Ward:</strong> {{ details.wards }}<br>
+            <strong>Submitted By:</strong> {{ details.name_of_complainant }}<br>
+            <strong>Gender:</strong> {{ details.gender }}<br>
+            <strong>Phone No:</strong> {{ details.phone_no }}<br>
+            <strong>Email Address:</strong> {{ details.email_of_complainant }}<br>
+            <strong>Submitted On:</strong> {{ details.incident_report_date }}<br>
+            <strong>Feedback Status:</strong> {{ details.status.status_name }}<br><br>
+                {% for assignment in details.assigned_to.all %}
+                  {% if assignment.id == user.id %}
+                  <strong><p>Note: this incident has been assigned to you please provide feedback on the matter addressed</p></strong>
+                  {% endif %}
+                {% endfor %}             
+            <p class="card-text">{{ details.description }}</p>
+            <button type="button" class="btn btn-link" onclick="displayFeedback()" >View feedback</button>
+
+      <form action="/assign/" method="POST">
+          {% csrf_token %}
+          <div id="feedbacks" style="display: none;">
+            {% for feedback in feedback %}
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title"><strong>Replied by:{{ feedback.user.user_name }}</strong></p>
+                <p class="card-text">{{ feedback.reply }}</p>
+                <strong>-{{ feedback.date_of_reply }}-</strong>
+              </div>
+            </div>
+            {% endfor %}    
+          </div>
+
+          <div>
+              <label for="feedback"><strong>Feedback:</strong></label>
+              <textarea class="form-control" rows="5" id="feedback" name="feedback"></textarea>
+            </div><br>
+          </div>
+
+
+      <input type="hidden" id="incident_id" name="incident_id" value="{{ details.id }}">
+      <input type="hidden" id="user" name="user" value="{{ user.id }}">
+      <input type="hidden" id="link-from" name="link-from" value="{{ link_tag }}">
+      {% if user.is_admin == True %}
+        </div><br>
+
+          <div class="form-check form-check-flat form-check-warning">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" id="external" name="external" value="external feedback">
+              Forward feedback back to complainant
+            </label>
+          </div><br>
+
+          <div>
+              <div>
+                <label for="user_assigned"><strong>Assign incident to user</strong></label>
+                 <select class="form-control form-control-lg" id="user_assigned" name="user_assigned">
+                 <option value="" disabled selected> Select user</option>
+                    {% for user in users %}
+                     <option value="{{ user.user_name }}">{{ user.user_name }}</option>
+                     {% endfor %}
+                </select>
+              </div><br>
+              <div class="form-check form-check-flat form-check-warning">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" id="status" name="status" value="completed">
+                  Change the incident status to completed
+                </label>
+              </div><br>
+              <div>
+                <button class="btn btn-warning" type="submit">Submit</button>
+              </div>
+              {% endif %}
+          </div><br>
+      </form>
+
+<script>
+  function displayFeedback(){
+    var collapse = document.getElementById('feedbacks');
+    if (collapse.style.display=='none'){
+      collapse.style.display = 'block';
+    }else{
+      collapse.style.display = 'none';
+    }
+  }
+
+</script>
+
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+        {% endfor %}
+{% endif %}
+
+    </div>
+  </div>
+
+{% endblock %}

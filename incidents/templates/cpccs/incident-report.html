@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <title>PDF File</title>
+  <style>
+    @page{
+      size: "A4";
+      margin: 2.5cm 2.5cm 2.5cm 2.5cm;
+      @top-center{
+        /*content: "CPCCS REPORT";*/
+      }
+      @bottom-center{
+        content: counter(page);
+      }
+    }
+    .center-content {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <div style="height: 10px; background:#00A652"></div>
+  <img src="{% static 'logo.png' %}" class="center-content" width="200px" height="200px">
+  <strong>
+    <center>
+      <p>
+        CPCCS Report
+      </p>
+  </center>
+  </strong>
+  <article style="page-break-before: always">
+    <section>
+          <strong>Reference No:</strong> {{ incident.ref_no }}<br>
+          <strong>Incident Type:</strong> {{ incident.incident_type }}<br>
+          <strong>Department:</strong> {{ incident.department.department_name }} <br>
+          <strong>Subcounty:</strong> {{ incident.subcounty }}<br>
+          <strong>Ward:</strong> {{ incident.wards }}<br>
+          <strong>Submitted By:</strong> {{ incident.name_of_complainant }}<br>
+          <strong>Phone No:</strong> {{ incident.phone_no }}<br>
+          <strong>Email Address:</strong> {{ incident.email_of_complainant }}<br>
+          <strong>Submitted On:</strong> {{ incident.incident_report_date }}<br>
+          <strong>Feedback Status:</strong> {{ incident.status.status_name }}<br>
+    </section>
+    <section><h2 align="center">Description</h2></section>
+    <section>
+      <p>{{ incident.description }}</p>
+    </section>    
+  </article>
+</body>
+</html>

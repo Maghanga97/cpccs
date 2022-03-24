@@ -1,0 +1,245 @@
+{% extends 'cpccs/super-admin/main.html' %}
+{% load static %}
+{% block navmenu %}
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="/{{ link_tag }}/{{ user.user_name }}/{{ session }}/"
+            aria-expanded="true"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Main Page</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseUsers"
+            aria-expanded="true"
+            aria-controls="collapseUsers"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>System Users</span>
+          </a>
+          <div
+            id="collapseUsers"
+            class="collapse"
+            aria-labelledby="headingUsers"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/register/{{ user.id }}/{{ link_tag}}/{{ session }}/">Add User</a>
+              <a class="collapse-item" href="/manage-users/{{ link_tag }}/{{ user.department.id }}/{{ user.id }}/">Manage Users</a>
+              <a class="collapse-item" href="/add-group/{{ session }}/">Add a new user group</a>
+              <a class="collapse-item" href="">Add a new user role</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseIncidents"
+            aria-expanded="true"
+            aria-controls="collapseIncidents"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Incidents</span>
+          </a>
+          <div
+            id="collapseIncidents"
+            class="collapse"
+            aria-labelledby="headingIncidents"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/department-incident-type/{{ user.id }}/Compliments/{{ link_tag }}">Compliments</a>
+              <a class="collapse-item" href="/department-incident-type/{{ user.id }}/Complaints/{{ link_tag }}">Complaints</a>
+              <a class="collapse-item" href="/department-incident-type/{{ user.id }}/Query/{{ link_tag }}">Query</a>
+              <a class="collapse-item" href="/department-incident-type/{{ user.id }}/Suggestions/{{ link_tag }}">Suggestions</a>
+              <a class="collapse-item" href="/department-incident-type/{{ user.id }}/Corruption/{{ link_tag }}">Corruption</a>
+              <h6 class="collapse-header">Solved:</h6>
+              <a class="collapse-item" href="/department-incidents/{{ link_tag }}/{{ user.id }}/pending/">Pending</a>
+              <a class="collapse-item" href="/department-incidents/{{ link_tag }}/{{ user.id }}/assigned/">Assigned</a>                
+              <a class="collapse-item" href="/department-incidents/{{ link_tag }}/{{ user.id }}/in progress/">In progress</a> 
+              <a class="collapse-item" href="/department-incidents/{{ link_tag }}/{{ user.id }}/completed/">Completed</a>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapsePages"
+            aria-expanded="true"
+            aria-controls="collapsePages"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div
+            id="collapsePages"
+            class="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/login/">Department Login</a>
+              <a class="collapse-item" href="/add/{{ session }}/">Add a new department</a>
+              <div class="collapse-divider"></div>
+              <h6 class="collapse-header">Other Pages:</h6>
+              <a class="collapse-item" href="/">Report Incident</a>
+            </div>
+          </div>
+        </li>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block" />
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+      </ul>
+      <!-- End of Sidebar -->
+{% endblock %}
+{% block content %}
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form class="row g-3" method="GET" action="/search-results/">
+                      <div class="col-auto">
+                        <input type="text" class="form-control" name="search" placeholder="Search here...">
+                      </div>
+                      <input type="hidden" name="user-id" value="{{ user.id }}">
+                      <input type="hidden" name="clicked-from" value="{{ link_tag }}">
+                      <div class="col-auto">
+                        <input type="date" name="reported-on" class="form-control" placeholder="Search by date..."/>
+                      </div>
+                      <div class="col-auto">
+                            <select id="status" name="status" class="form-control">
+                              <option value="">Select processing status</option>
+                              <option>Pending</option>
+                              <option>In Progress</option>
+                              <option>Assigned</option>
+                              <option>Completed</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select name="user-assigned" class="form-control">
+                              <option value="">Assigned to</option>
+                              {% for get_user in users %}
+                                {% if get_user.department.department_name == user.department.department_name %}
+                              <option>{{ get_user.user_name }}</option>
+                                {% endif %}
+                              {% endfor %}
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="incident-type" name="incident-type" class="form-control">
+                              <option value="">Select the type incident</option>
+                              <option>Complaints</option>
+                              <option>Compliments</option>
+                              <option>Query</option>
+                              <option>Suggestions</option>
+                              <option>Corruption</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="subcounty" name="subcounty" class="form-control" onchange="display_ward_choices(this.value)">
+                              <option value="">Select subcounty</option>
+                              <option>Mwatate</option>
+                              <option>Voi</option>
+                              <option>Taveta</option>
+                              <option>Wundanyi</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="wards" name="wards" class="form-control">
+                              <option value="">Select ward</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Search for incident</button>
+                      </div>
+                        <script>
+                            var wardChoices = {
+                              Mwatate: ["Bura", "Chawia", "Mwatate", "Rong'e", "Wusi-Kishamba"],
+                              Voi: ["Kasigau","Kaloleni", "Mbololo","Marungu", "Ngolia", "Sagalla"],
+                              Taveta: ["Bomani", "Chala", "Mahoo", "Mata", "Mboghoni"],
+                              Wundanyi:["Mwanda-Mghange", "Werugha", "Wumingu-Kishushe", "Wundanyi-Mbale"]
+                              }
+
+                          function display_ward_choices(value) {
+                              if (value.length == 0) document.getElementById("wards").innerHTML = "<option></option>";
+                              else {
+                                  var wardOptions = "";
+                                  for (wardId in wardChoices[value]) {
+                                      wardOptions += "<option>" + wardChoices[value][wardId] + "</option>";
+                                  }
+                                  document.getElementById("wards").innerHTML = wardOptions;
+                              }
+                          }
+                        </script><br>
+                    </form>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <th>Reference Number</th>
+                          <th>Incident Type</th>
+                          <th>Reported On</th>
+                          <th>Due In</th>
+                          <th>Location</th>
+                          <th>Status</th>
+                        </thead>
+                        <tbody>
+                          {% for incident in results %} 
+                          <tr>
+                            <td>{{ incident.ref_no }}</td>
+                            <td>{{ incident.incident_type }}</td>
+                            <td>{{ incident.incident_report_date }}</td>
+                            {% if incident.status.status_name == 'completed' %}
+                            <td><label class="badge badge-success">Closed</label></td>
+                            {% elif incident.due_on > current_date %}
+                            <td>{{ incident.due_in }}</td>
+                            {% elif current_date > incident.due_on %}
+                            <td><label class="badge badge-danger">Overdue</label></td>
+                            {% endif %}
+                            <td>{{ incident.location }}</td>
+                            {% if incident.status.status_name == 'pending' %}
+                            <td><label class="badge badge-danger">{{ incident.status.status_name }}</label></td>
+                            {% elif incident.status.status_name == 'in progress' %}
+                            <td><label class="badge badge-info">{{ incident.status.status_name }}</label></td>
+                            {% elif incident.status.status_name == 'assigned' %}
+                            <td><label class="badge badge-warning">{{ incident.status.status_name }}</label></td>
+                            {% elif incident.status.status_name == 'completed' %}
+                            <td><label class="badge badge-success">{{ incident.status.status_name }}</label></td>
+                            {% endif %}
+                            <td><a href="/more-details/{{ user.id }}/{{ incident.id }}/{{ link_tag }}/"><button class="btn btn-link">View</button></a></td>
+                            <td><a href="/pdf/{{ incident.id }}/"><button class="btn btn-link">Download</button></a></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>                      
+                    </div><!-- table responsive div ends here -->
+                  </div>
+                  <!-- card body ends here -->
+                </div>
+                <!-- card div ends here -->
+              </div>
+              <!-- column div -->
+            </div>
+            <br /><!-- table row ends here -->
+            {% if not results %}
+            <strong>Note:No result was found</strong>
+            {% endif %}
+{% endblock %}

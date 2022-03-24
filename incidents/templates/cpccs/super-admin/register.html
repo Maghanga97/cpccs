@@ -1,0 +1,37 @@
+{% extends 'cpccs/super-admin/main.html' %}
+
+{% block content %}
+<form action="/register_backend/" method="POST" class="pt-3"> {% csrf_token %}
+  <div class="form-group">
+    <input type="text" class="form-control form-control-lg" id="user_name" name="user_name" placeholder="Username" required>
+  </div>
+  <input type="hidden" name="user" value="{{ user.id }}">
+  <input type="hidden" name="clicked-from" value="{{ link_tag }}">
+  <div class="form-group">
+    <input type="email" class="form-control form-control-lg" id="user_mail" name="user_mail" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <select class="form-control form-control-lg" id="department" name="department" required>
+      <option value="">Select Department</option>
+      {% for department_choices in departments %}
+      <option>{{ department_choices.department_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <select class="form-control form-control-lg" id="group" name="group" required>
+      <option value="">Select user group</option>
+      {% for level in levels %}
+      <option>{{ level.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <input type="password" class="form-control form-control-lg" id="user_pass" name="user_pass" placeholder="Password" required>
+  </div>
+  <div class="mt-3">
+    <button class="btn btn-block btn-warning btn-lg font-weight-medium auth-form-btn" type="submit">Add User</button>
+  </div>
+</form>
+
+{% endblock %}

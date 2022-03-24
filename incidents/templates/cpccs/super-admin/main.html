@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>CPCCS | Dashboard</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'base_admin/css/all.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'base_admin/css/admin.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'base_admin/css/style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'styles/css/bootstrap.min.css' %}"
+    />
+    <script src="styles/js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+      <!-- Sidebar -->
+      <ul
+        class="navbar-nav bg-gradient-warning sidebar sidebar-dark accordion"
+        id="accordionSidebar"
+      >
+        <!-- Sidebar - Brand -->
+        <a
+          class="sidebar-brand d-flex align-items-center justify-content-center"
+          href="index.html"
+        >
+          <div class="sidebar-brand-text mx-3">Department</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0" />
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+          <a class="nav-link" href="">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a
+          >
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
+
+        <!-- Heading -->
+        <div class="sidebar-heading"><h2>Menu</h2></div>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider" />
+{% block navmenu %}
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="/main-dashboard/{{ user.user_name }}/{{ session }}/"
+            aria-expanded="true"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Main Page</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseUsers"
+            aria-expanded="true"
+            aria-controls="collapseUsers"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>System Users</span>
+          </a>
+          <div
+            id="collapseUsers"
+            class="collapse"
+            aria-labelledby="headingUsers"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/register/{{ user.id }}/main-dashboard/{{ session }}/">Add User</a>
+              <a class="collapse-item" href="/manage-users/main-dashboard/All/{{ user.id }}/">Manage Users</a>
+              <a class="collapse-item" href="/add-group/{{ session }}/">Add a new user group</a>
+              <a class="collapse-item" href="">Add a new user role</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseIncidents"
+            aria-expanded="true"
+            aria-controls="collapseIncidents"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Incidents</span>
+          </a>
+          <div
+            id="collapseIncidents"
+            class="collapse"
+            aria-labelledby="headingIncidents"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/incident-type/{{ user.id }}/Compliments/main-dashboard">Compliments</a>
+              <a class="collapse-item" href="/incident-type/{{ user.id }}/Complaints/main-dashboard">Complaints</a>
+              <a class="collapse-item" href="/incident-type/{{ user.id }}/Query/main-dashboard">Query</a>
+              <a class="collapse-item" href="/incident-type/{{ user.id }}/Suggestion/main-dashboard">Suggestions</a>
+              <a class="collapse-item" href="/incident-type/{{ user.id }}/Corruption/main-dashboard">Corruption</a>
+              <h6 class="collapse-header">Solved:</h6>
+              <a class="collapse-item" href="/incidents-list/main-dashboard/{{ user.id }}/pending/">Pending</a>
+              <a class="collapse-item" href="/incidents-list/main-dashboard/{{ user.id }}/assigned/">Assigned</a>                
+              <a class="collapse-item" href="/incidents-list/main-dashboard/{{ user.id }}/in progress/">In progress</a>
+              <a class="collapse-item" href="/incidents-list/main-dashboard/{{ user.id }}/completed/">Completed</a>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapsePages"
+            aria-expanded="true"
+            aria-controls="collapsePages"
+          >
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div
+            id="collapsePages"
+            class="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/add/{{ session }}/">Add a new department</a>
+              <div class="collapse-divider"></div>
+              <h6 class="collapse-header">Other Pages:</h6>
+              <a class="collapse-item" href="/logs/">View Logs</a>
+            </div>
+          </div>
+        </li>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block" />
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+      </ul>
+      <!-- End of Sidebar -->
+{% endblock %}
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          <nav
+            class="
+              navbar navbar-expand navbar-light
+              bg-white
+              topbar
+              mb-4
+              static-top
+              shadow
+            "
+          >
+            <!-- Sidebar Toggle (Topbar) -->
+            <button
+              id="sidebarToggleTop"
+              class="btn btn-link d-md-none rounded-circle mr-3"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+
+            <!-- Topbar Search -->
+<!--             <form
+              class="
+                d-none d-sm-inline-block
+                form-inline
+                mr-auto
+                ml-md-3
+                my-2 my-md-0
+                mw-100
+                navbar-search
+              "
+              action="/main-dashboard/{{ user.user_name }}/{{ session}}/"
+            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control bg-light border-0 small"
+                  placeholder="Search for..."
+                  aria-label="Search"
+                  aria-describedby="basic-addon2"
+                  name="search"
+                  id="search"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-warning" type="submit">Search</button>
+                </div>
+              </div>
+            </form>
+ -->
+            <!-- Topbar Navbar -->
+            <ul class="navbar-nav ml-auto">
+              <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+              <li class="nav-item dropdown no-arrow d-sm-none">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="searchDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-search fa-fw"></i>
+                </a>
+                <!-- Dropdown - Messages -->
+                <div
+                  class="
+                    dropdown-menu dropdown-menu-right
+                    p-3
+                    shadow
+                    animated--grow-in
+                  "
+                  aria-labelledby="searchDropdown"
+                >
+                  <form class="form-inline mr-auto w-100 navbar-search" action="/main/{{ get_user.user_name }}/{{ session}}/">
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control bg-light border-0 small"
+                        placeholder="Search for..."
+                        aria-label="Search"
+                        aria-describedby="basic-addon2"
+                        name="search"
+                        id="search"
+                      />
+                      <div class="input-group-append">
+                        <button  class="btn btn-primary" type="submit">Search</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </li>
+
+              <!-- Nav Item - Alerts -->
+
+              <div class="topbar-divider d-none d-sm-block"></div>
+
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="userDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                    >Welcome {{ user.user_name }}</span
+                  >
+                  <img
+                    class="img-profile rounded-circle"
+                    src="{% static '/vendor/res/undraw_profile.svg' %}"
+                  />
+                </a>
+                <!-- Dropdown - User Information -->
+                <div
+                  class="
+                    dropdown-menu dropdown-menu-right
+                    shadow
+                    animated--grow-in
+                  "
+                  aria-labelledby="userDropdown"
+                >
+                  <a class="dropdown-item" href="">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Profile
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Settings
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Activity Log
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a
+                    class="dropdown-item"
+                    href="/login/"
+                    data-toggle="modal"
+                    data-target="#logoutModal"
+                  >
+                    <i
+                      class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
+                    ></i>
+                    Logout
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <!-- End of Topbar -->
+
+          <!-- Begin Page Content -->
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+            {% if user.level.name == 'super admin' %}
+              <h1 class="h3 mb-0 text-gray-800">Main Admin | Dashboard</h1>
+            {% elif user.level.name != 'super admin' %}
+              <h1 class="h3 mb-0 text-gray-800">{{ user.department.department_name }} | Dashboard</h1>
+            {% endif %}
+              <a
+                href="/report/"
+                class="
+                  d-none d-sm-inline-block
+                  btn btn-sm btn-warning
+                  shadow-sm
+                "
+                ><i class="fas fa-download fa-sm text-white-50"></i> Generate
+                Report</a
+              >
+            </div>
+{% block details %}
+{% block content %}
+            <!-- Content Row -->
+            <div class="row">
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-2 col-md-2 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="
+                            text-xs
+                            font-weight-bold
+                            text-warning text-uppercase
+                            mb-1
+                          "
+                        >
+                          Number of Incidents
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ count_incidents }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-2 col-md-2 mb-4">
+                <div class="card border-left-danger shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="
+                            text-xs
+                            font-weight-bold
+                            text-danger text-uppercase
+                            mb-1
+                          "
+                        >
+                          Pending Review
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ pending_count }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-2 col-md- mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="
+                            text-xs
+                            font-weight-bold
+                            text-info text-uppercase
+                            mb-1
+                          "
+                        >
+                          Assigned
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ assigned_count }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-2 col-md-2 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="
+                            text-xs
+                            font-weight-bold
+                            text-success text-uppercase
+                            mb-1
+                          "
+                        >
+                          Completed
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ completed_count }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Earnings (Monthly) Card Example -->
+              <div class="col-xl-2 col-md-2 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="
+                            text-xs
+                            font-weight-bold
+                            text-primary text-uppercase
+                            mb-1
+                          "
+                        >
+                          Number of Users
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ number_of_users }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Pending Requests Card Example -->
+              <div class="col-xl-2 col-md-2 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div
+                          class="
+                            text-xs
+                            font-weight-bold
+                            text-primary text-uppercase
+                            mb-1
+                          "
+                        >
+                          Number of Departments
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ dep_count }}
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <i
+                          class="fas fa-clipboard-list fa-2x text-gray-300"
+                        ></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <form action="/main-dashboard/{{ user.user_name }}/{{ session}}/">              
+              <div class="form-group">
+                  <select class="form-control form-control-lg" id="department" name="department">
+                    <option value="">All</option>
+                    {% for department_choices in departments %}
+                    <option value="{{ department_choices.id}}">{{ department_choices.department_name }}</option></a>
+                    {% endfor %}
+                  </select>
+                  <button type="submit" class="btn btn-link">Filter</button>
+              </div>
+            </form>
+            
+            <!-- Content Row -->
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+                <div class="card">
+                  <div class="card-body">
+                    <form class="row g-3" method="GET" action="/search-results/">
+                      <div class="col-auto">
+                        <input type="text" class="form-control" name="search" placeholder="Search here...">
+                      </div>
+                      <input type="hidden" name="user-id" value="{{ user.id }}">
+                      <input type="hidden" name="clicked-from" value="main-dashboard">
+                      <div class="col-auto">
+                        <input type="date" name="reported-on" class="form-control" placeholder="Search by date..."/>
+                      </div>
+                      <div class="col-auto">
+                            <select id="status" name="status" class="form-control">
+                              <option value="">Select processing status</option>
+                              <option>Pending</option>
+                              <option>In Progress</option>
+                              <option>Assigned</option>
+                              <option>Completed</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="status" name="user-assigned" class="form-control">
+                              <option value="">Assigned to</option>
+                              {% for user in users %}
+                              <option>{{ user.user_name }}</option>
+                              {% endfor %}
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="incident-type" name="incident-type" class="form-control">
+                              <option value="">Select the type incident</option>
+                              <option>Complaints</option>
+                              <option>Compliments</option>
+                              <option>Query</option>
+                              <option>Suggestions</option>
+                              <option>Corruption</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="subcounty" name="subcounty" class="form-control" onchange="display_ward_choices(this.value)">
+                              <option value="">Select subcounty</option>
+                              <option>Mwatate</option>
+                              <option>Voi</option>
+                              <option>Taveta</option>
+                              <option>Wundanyi</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                            <select id="wards" name="wards" class="form-control">
+                              <option value="">Select ward</option>
+                            </select>
+                      </div>
+                      <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Search for incident</button>
+                      </div>
+                        <script>
+                            var wardChoices = {
+                              Mwatate: ["Bura", "Chawia", "Mwatate", "Rong'e", "Wusi-Kishamba"],
+                              Voi: ["Kasigau","Kaloleni", "Mbololo","Marungu", "Ngolia", "Sagalla"],
+                              Taveta: ["Bomani", "Chala", "Mahoo", "Mata", "Mboghoni"],
+                              Wundanyi:["Mwanda-Mghange", "Werugha", "Wumingu-Kishushe", "Wundanyi-Mbale"]
+                              }
+
+                          function display_ward_choices(value) {
+                              if (value.length == 0) document.getElementById("wards").innerHTML = "<option></option>";
+                              else {
+                                  var wardOptions = "";
+                                  for (wardId in wardChoices[value]) {
+                                      wardOptions += "<option>" + wardChoices[value][wardId] + "</option>";
+                                  }
+                                  document.getElementById("wards").innerHTML = wardOptions;
+                              }
+                          }
+                        </script><br>
+                    </form>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Reference Number</th>
+                            <th>Incident Type</th>
+                            <th>Reported On</th>
+                            <th>Due in</th>
+                            <th>Location</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for incident in incidents %}
+                          <tr>
+                            <td>{{ incident.ref_no }}</td>
+                            <td>{{ incident.incident_type }}</td>
+                            <td>{{ incident.incident_report_date }}</td>
+                            {% if incident.status.status_name == 'completed' %}
+                            <td><label class="badge badge-success">Closed</label></td>
+                            {% elif incident.due_on > current_date %}
+                            <td>{{ incident.due_in }}</td>
+                            {% elif current_date > incident.due_on %}
+                            <td><label class="badge badge-danger">Overdue</label></td>
+                            {% endif %}
+                            <td>{{ incident.location }}</td>
+                            <td>{{ incident.department.department_name }}</td>
+                            {% if incident.status.status_name == 'pending' %}
+                            <td><label class="badge badge-danger">{{ incident.status.status_name }}</label></td>
+                            {% elif incident.status.status_name == 'in progress' %}
+                            <td><label class="badge badge-info">{{ incident.status.status_name }}</label></td>
+                            {% elif incident.status.status_name == 'assigned' %}
+                            <td><label class="badge badge-warning">{{ incident.status.status_name }}</label></td>
+                            {% elif incident.status.status_name == 'completed' %}
+                            <td><label class="badge badge-success">{{ incident.status.status_name }}</label></td>
+                            {% endif %}
+                            <td>
+                              <a
+                                href="/more-details/{{ user.id }}/{{ incident.id }}/main-dashboard/"
+                                ><button class="btn btn-link">View</button></a
+                              >
+                            </td>
+                            <td>
+                              <a href="/incident/{{ incident.id }}/"
+                                ><button class="btn btn-link">Download</button></a
+                              >
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>                        
+                    </div><!-- table responsive div ends here -->
+                  </div>
+                  <!-- card body ends here -->
+                </div>
+                <!-- card div ends here -->
+              </div>
+              <!-- column div -->
+            </div>
+            <br /><!-- table row ends here -->
+            {% endblock %}
+          </div>
+          <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+{% endblock %}
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Taita Taveta County 2021</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div
+      class="modal fade"
+      id="logoutModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button
+              class="close"
+              type="button"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Select "Logout" below if you are ready to end your current session.
+          </div>
+          <div class="modal-footer">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <a class="btn btn-primary" href="/">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'vendor/js/sb-admin-2.min.js' %}"></script>
+
+    <!-- Page level plugins -->
+    <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{% static 'vendor/js/demo/chart-area-demo.js' %}"></script>
+    <script src="{% static 'vendor/js/demo/chart-pie-demo.js' %}"></script>
+{% if messages %}
+        {% for message in messages %}
+         {% if message.tags %}  <script>alert("{{ message }}")</script> {% endif %}
+        {% endfor %}
+{% endif %}
+
+  </body>
+</html>

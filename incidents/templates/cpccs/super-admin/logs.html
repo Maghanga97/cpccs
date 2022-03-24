@@ -1,0 +1,36 @@
+{% extends 'cpccs/super-admin/main.html' %}
+{% block department %} {{ user.department.department_name }} {% endblock %}
+{% block content %}
+{% load static %}
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-xs-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Users</h4>
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <th>Id</th>
+                          <th>Log Event</th>
+                          <th>Occurred On</th>
+                        </thead>
+                        <tbody>
+                          {% for log in logs %}
+                          <tr>
+                            <td>{{ log.id }}</td>
+                            <td>{{ log.event }}</td>
+                            <td>{{ log.occurred_on }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>                      
+                    </div> <!-- table responsive div ends here -->
+                  </div>
+                  <!-- card body ends here -->
+                </div>
+                <!-- card div ends here -->
+              </div>
+              <!-- column div -->
+            </div>
+            <br /><!-- table row ends here -->
+{% endblock %}
